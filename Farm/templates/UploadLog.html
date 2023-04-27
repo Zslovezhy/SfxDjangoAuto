@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" http-equiv="Content-Type" content="text/html; charset=gb2312">
+	<title>WEB上传log</title>
+    <style type="text/css">
+        label{
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <script src="./js/jquery-1.11.3.js"></script>
+    <form action="/Farm/uploadlog/" method="post">
+        {% csrf_token %}
+        <div>
+        	<label>bugID：</label>
+        	<input type="text" id="bugID" name="bugID">
+        </div>
+        <div>
+        	<label>caseName：</label>
+        	<input type="text" id="caseName" name="caseName">
+        </div>
+        <div>
+        	<label>FwVersion：</label>
+        	<input type="text" id="FwVersion" name="FwVersion">
+        </div>
+        <div>
+        	<label>IP：</label>
+        	<input type="text" id="IP" name="IP">
+        </div>
+        <div>
+        	<label>nodeName：</label>
+        	<input type="text" id="nodeName" name="nodeName">
+        </div>
+        <div>
+        	<label>configID：</label>
+        	<input type="text" id="configID" name="configID">
+        </div>
+        <script>
+            function uploadRun(){
+                var bugID = $("#bugID").val();
+                var caseName = $("#caseName").val();
+                var FwVersion = $("#FwVersion").val();
+                var IP = $("#IP").val();
+                var nodeName = $("#nodeName").val();
+                var configID = $("#configID").val();
+                console.log("cd /home/tcnsh/zs && sudo ./upload_log.sh "+bugID+" "+caseName+" "+FwVersion+" "+IP+" "+nodeName+" "+configID);
+                var cmd = new ActivateXObject("WScript.Shell");
+                cmd.run("cd /home/tcnsh/zs && sudo ./upload_log.sh "+bugID+" "+caseName+" "+FwVersion+" "+IP+" "+nodeName+" "+configID);
+                cmd=null;
+                window.setTimeout('window.close();',3000);
+            }
+        </script>
+        <!-- <a href="#" onclick="uploadRun(); return false;">调用cmd</a> -->
+        <div>
+            <button onclick="uploadRun(); return false;">提交</button>
+        </div>
+    </form>
+</body>
+</html>
